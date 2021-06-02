@@ -5,6 +5,7 @@ const carrito           = document.querySelector('#carrito'),
       listaCursos       = document.querySelector('#lista-cursos');
 let   articuloCarrito   = [];
 
+// Eventos
 const cargarEventListerner = () => {
 
     listaCursos.addEventListener('click', agregarCurso);
@@ -15,8 +16,17 @@ const cargarEventListerner = () => {
     // Vaciar el carrito
     vaciarCarritoBtn.addEventListener('click', vaciarCarrito);
 
+    // Muestra los cursos de localstrorage
+    document.addEventListener('DOMContentLoaded', () => {
+
+        articuloCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carritoHtml();
+
+    });
+
 }
 
+// Funciones de Eventos
 const agregarCurso = (e) => {
 
     e.preventDefault();
@@ -49,7 +59,6 @@ const vaciarCarrito = () => {
 }
 
 // Lee el contenifo del HTML al que le dimos click
-
 const leerDatosCursos = (curso) => {
     //console.log(curso);
 
@@ -94,12 +103,9 @@ const leerDatosCursos = (curso) => {
 
     carritoHtml();
 
-    console.log(articuloCarrito);
-
 }
 
 // Muestra el carrito de comprar en el html
-
 const carritoHtml = () => {
 
     // Limpiar html
@@ -125,6 +131,9 @@ const carritoHtml = () => {
         contenedorCarrito.appendChild(row)
     });
 
+    // Agregar carrito de comprar al storage
+    sincronizarStorage();
+
 }
 
 const limpiarHtml = () => {
@@ -137,6 +146,12 @@ const limpiarHtml = () => {
         contenedorCarrito.removeChild(contenedorCarrito.firstChild)
         
     }
+
+}
+
+const sincronizarStorage = () => {
+
+    localStorage.setItem('carrito', JSON.stringify(articuloCarrito));
 
 }
 
